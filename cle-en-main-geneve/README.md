@@ -15,6 +15,7 @@ cle-en-main-geneve/
 ├── src/
 │   ├── content.py       ← tous les textes (services, communes, FAQ)
 │   ├── build.py         ← gabarits, CSS, SEO, configuration (adresse, IDE, domaine)
+│   ├── google-business.template.md ← modèle de GOOGLE-BUSINESS.md
 │   └── images.mjs       ← génère les illustrations WebP et les icônes
 ├── GOOGLE-BUSINESS.md   ← contenu de la fiche Google (GÉNÉRÉ par build.py)
 ├── netlify.toml
