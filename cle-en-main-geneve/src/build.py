@@ -9,9 +9,10 @@ Aucune dépendance : Python 3.8+ standard uniquement.
 import html
 import json
 import os
+import re
 from datetime import date
 
-from content import COMMUNES, HOME_FAQ, SERVICES, STEPS
+import content as C
 
 # ==========================================================================
 # CONFIGURATION — à compléter avant la mise en ligne
@@ -20,13 +21,98 @@ SITE_URL = os.environ.get("SITE_URL", "https://www.cle-en-main-geneve.ch").rstri
 NAME = "Clé en Main Genève"
 PHONE_DISPLAY = "+41 79 942 95 44"
 PHONE_TEL = "+41799429544"
+
+# --- Titulaire (obligatoire pour une entreprise individuelle) ---------------
+OWNER_NAME = "[NOM DU TITULAIRE]"   # prénom et nom du titulaire, ex. "Jean Dupont"
+
+# --- Adresse ----------------------------------------------------------------
 STREET = ""                    # rue et numéro (facultatif), ex. "Chemin de l'Exemple 12"
 POSTAL_CODE = "1224"
 LOCALITY = "Chêne-Bougeries"
 ADDRESS = ", ".join(x for x in [STREET, f"{POSTAL_CODE} {LOCALITY}"] if x)
 IDE = ""                       # numéro IDE si l'entreprise en obtient un, ex. "CHE-123.456.789" (vide = non affiché)
-HOSTING = "Netlify, Inc., San Francisco, Californie, États-Unis – www.netlify.com"        # ex. "Netlify, Inc., San Francisco (USA)"
+HOSTING = "Netlify, Inc., San Francisco, Californie, États-Unis – www.netlify.com"
+
+# --- Horaires ---------------------------------------------------------------
+# True  = le site annonce « 7j/7, 24h/24 ». À n'activer QUE si quelqu'un répond
+#         réellement au téléphone la nuit, le week-end et les jours fériés.
+# False = le site annonce les horaires de HOURS ci-dessous.
+HOURS_24_7 = False
+# Horaires normaux (utilisés si HOURS_24_7 = False). None = fermé ce jour-là.
+HOURS = {
+    "lundi":    ("07:00", "20:00"),
+    "mardi":    ("07:00", "20:00"),
+    "mercredi": ("07:00", "20:00"),
+    "jeudi":    ("07:00", "20:00"),
+    "vendredi": ("07:00", "20:00"),
+    "samedi":   ("08:00", "18:00"),
+    "dimanche": None,
+}
 LASTMOD = date.today().isoformat()
+
+# ==========================================================================
+# Textes d'horaires dérivés de la configuration (ne pas modifier)
+# ==========================================================================
+DAYS = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
+DAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+ABBR = {"lundi": "lun", "mardi": "mar", "mercredi": "mer", "jeudi": "jeu", "vendredi": "ven", "samedi": "sam", "dimanche": "dim"}
+
+
+def _h(t):
+    hh, mm = t.split(":")
+    return f"{int(hh)}h" + ("" if mm == "00" else mm)
+
+
+def _groups():
+    """Regroupe les jours consécutifs ayant les mêmes horaires."""
+    out = []
+    for d in DAYS:
+        v = HOURS.get(d)
+        if v is None:
+            continue
+        if out and out[-1][2] == v and DAYS.index(out[-1][1]) == DAYS.index(d) - 1:
+            out[-1][1] = d
+        else:
+            out.append([d, d, v])
+    return out
+
+
+if HOURS_24_7:
+    J7, J7L = "7j/7", "7 jours sur 7"
+    DISPO = "7j/7, 24h/24"
+    DISPO_LONG = "7 jours sur 7, 24 heures sur 24, jours fériés compris"
+else:
+    _n = sum(1 for d in DAYS if HOURS.get(d))
+    J7 = f"{_n}j/7"
+    J7L = f"{_n} jours sur 7"
+    DISPO = ", ".join(
+        (ABBR[a] if a == b else f"{ABBR[a]}–{ABBR[b]}") + f" {_h(o)}–{_h(c)}" for a, b, (o, c) in _groups())
+    DISPO_LONG = ", ".join(
+        (f"le {a}" if a == b else f"du {a} au {b}") + f" de {_h(o).replace('h', ' h ').strip()} à {_h(c).replace('h', ' h ').strip()}"
+        for a, b, (o, c) in _groups())
+
+TOKENS = {"{DISPO_LONG}": DISPO_LONG, "{DISPO}": DISPO, "{J7L}": J7L, "{J7}": J7}
+_COND = re.compile(r"\[\[(.*?)\|\|(.*?)\]\]", re.S)
+
+
+def resolve(x):
+    """Applique les horaires aux textes : {DISPO}, {J7}… et [[si 24/7||sinon]]."""
+    if isinstance(x, str):
+        x = _COND.sub(lambda m: m.group(1) if HOURS_24_7 else m.group(2), x)
+        for k, v in TOKENS.items():
+            x = x.replace(k, v)
+        return x
+    if isinstance(x, dict):
+        return {k: resolve(v) for k, v in x.items()}
+    if isinstance(x, list):
+        return [resolve(v) for v in x]
+    if isinstance(x, tuple):
+        return tuple(resolve(v) for v in x)
+    return x
+
+
+SERVICES, COMMUNES, HOME_FAQ, STEPS, LOCAL = (resolve(C.SERVICES), resolve(C.COMMUNES), resolve(C.HOME_FAQ),
+                                       resolve(C.STEPS), resolve(C.LOCAL))
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "public")
 SVC = {s["slug"]: s for s in SERVICES}
@@ -237,12 +323,12 @@ def service_cards(exclude=None, heading_level=3):
 
 def call_band(title="Bloqué devant votre porte ? Appelez maintenant."):
     return (f'<section class="band" aria-label="Appeler un serrurier"><div class="wrap band-g"><div><h2>{e(title)}</h2>'
-            f'<p>{DEVIS} · 7j/7, 24h/24 · {LANGS}.</p></div>{tel_link("btn b-dark")}</div></section>')
+            f'<p>{DEVIS} · {DISPO} · {LANGS}.</p></div>{tel_link("btn b-dark")}</div></section>')
 
 
 def aside(context=""):
     return (f'<aside><div class="aside-box"><p class="big">Besoin d\'un serrurier{e(context)} maintenant ?</p>'
-            f'<p>Un serrurier décroche 7j/7, 24h/24. {DEVIS} : rien n\'est fait sans votre accord.</p>'
+            f'<p>Un serrurier décroche {"7j/7, 24h/24" if HOURS_24_7 else DISPO}. {DEVIS} : rien n\'est fait sans votre accord.</p>'
             f'{tel_link("btn b-yel", PHONE_DISPLAY)}<p>{LANGS}.</p></div></aside>')
 
 
@@ -259,6 +345,13 @@ def crumbs(items):
 # ==========================================================================
 # Données structurées
 # ==========================================================================
+def opening_hours_ld():
+    if HOURS_24_7:
+        return [{"@type": "OpeningHoursSpecification", "dayOfWeek": DAYS_EN, "opens": "00:00", "closes": "23:59"}]
+    return [{"@type": "OpeningHoursSpecification", "dayOfWeek": DAYS_EN[DAYS.index(d)], "opens": HOURS[d][0], "closes": HOURS[d][1]}
+            for d in DAYS if HOURS.get(d)]
+
+
 def business_ld():
     area = [{"@type": "City", "name": c["name"] if c["slug"] != "serrurier-grand-saconnex" else "Le Grand-Saconnex"} for c in COMMUNES]
     return {
@@ -270,14 +363,11 @@ def business_ld():
         "telephone": PHONE_TEL,
         "image": url("/img/og-image.jpg"),
         "logo": url("/img/logo-512.png"),
-        "description": "Serrurier à Genève et sur La Côte : ouverture de porte, changement de serrure, sécurisation et blindage, mise en sécurité après effraction. 7j/7, 24h/24. Devis gratuit par téléphone avant intervention.",
+        "description": "Serrurier à Genève et sur La Côte : ouverture de porte, changement de serrure, sécurisation et blindage, mise en sécurité après effraction. " + DISPO_LONG[0].upper() + DISPO_LONG[1:] + ". Devis gratuit par téléphone avant intervention.",
         "address": {"@type": "PostalAddress", **({"streetAddress": STREET} if STREET else {}), "postalCode": POSTAL_CODE, "addressLocality": LOCALITY,
                     "addressRegion": "GE", "addressCountry": "CH"},
         "areaServed": area,
-        "openingHoursSpecification": [{
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-            "opens": "00:00", "closes": "23:59"}],
+        "openingHoursSpecification": opening_hours_ld(),
         "knowsLanguage": ["fr", "en", "es"],
         "makesOffer": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"], "url": url(f'/{s["slug"]}/')}} for s in SERVICES],
     }
@@ -311,7 +401,7 @@ def header(path):
     nav = "".join(f'<a href="{h}"{" aria-current=\"page\"" if h == path else ""}>{l}</a>' for l, h in NAV)
     menu = "".join(f'<a href="{h}">{l}</a>' for l, h in [("Accueil", "/")] + NAV)
     return f"""<a class="skip" href="#contenu">Aller au contenu</a>
-<div class="urgent"><div class="wrap"><span><span class="pulse" aria-hidden="true"></span>Urgence serrurerie 7j/7 – 24h/24</span><span>{DEVIS} : <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a></span></div></div>
+<div class="urgent"><div class="wrap"><span><span class="pulse" aria-hidden="true"></span>{'Urgence serrurerie 7j/7 – 24h/24' if HOURS_24_7 else 'Serrurerie · ' + DISPO}</span><span>{DEVIS} : <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a></span></div></div>
 <header class="site-h"><div class="wrap hbar">
 <a class="brand" href="/">{LOGO}<span>Clé en Main<small>Serrurier Genève</small></span></a>
 <nav class="nav" aria-label="Navigation principale">{nav}</nav>
@@ -324,9 +414,9 @@ def footer():
     svc = "".join(f'<li><a href="/{s["slug"]}/">{e(s["name"])}</a></li>' for s in SERVICES)
     com = "".join(f'<li><a href="/{c["slug"]}/">Serrurier {e(c["label"])}</a></li>' for c in COMMUNES)
     return f"""<footer class="foot"><div class="wrap"><div class="fg">
-<div><a class="brand" href="/">{LOGO}<span>{NAME}<small>Serrurier 7j/7</small></span></a>
+<div><a class="brand" href="/">{LOGO}<span>{NAME}<small>Serrurier {J7}</small></span></a>
 <p style="margin-top:1rem">Serrurerie à Genève et sur La Côte vaudoise : ouverture de porte, changement de serrure, sécurisation et mise en sécurité après effraction.</p>
-<p><a href="tel:{PHONE_TEL}"><strong>{PHONE_DISPLAY}</strong></a><br>7j/7 – 24h/24 · {LANGS}<br>{DEVIS}</p>
+<p><a href="tel:{PHONE_TEL}"><strong>{PHONE_DISPLAY}</strong></a><br>{DISPO} · {LANGS}<br>{DEVIS}</p>
 <p>{e(ADDRESS)}{"<br>IDE : " + e(IDE) if IDE else ""}</p></div>
 <div><p class="fh">Services</p><ul class="flist one">{svc}<li><a href="/contact/">Contact</a></li></ul></div>
 <div><p class="fh">Communes desservies</p><ul class="flist">{com}</ul></div>
@@ -397,7 +487,7 @@ def write(path, content):
 def build_home():
     body = f"""
 <section class="hero"><div class="wrap hero-g"><div>
-<h1><span class="kick">Serrurier Genève · 7j/7 · 24h/24</span> Porte claquée, clé perdue, serrure bloquée ? <span class="hl">On s'en occupe.</span></h1>
+<h1><span class="kick">Serrurier Genève · {'7j/7 · 24h/24' if HOURS_24_7 else J7}</span> Porte claquée, clé perdue, serrure bloquée ? <span class="hl">On s'en occupe.</span></h1>
 <p class="lead">Clé en Main Genève, c'est un serrurier qui décroche, vous écoute et vous explique avant de venir ce qu'il va faire. {DEVIS}, à Genève et sur La Côte.</p>
 <div class="ctas">{tel_link("btn b-yel")}<a class="btn b-ghost" href="#services">Nos interventions</a></div>
 <ul class="checks"><li>{DEVIS}</li><li>Rien n'est fait sans votre accord</li><li>{LANGS}</li></ul>
@@ -425,8 +515,8 @@ def build_home():
 {faq_html(HOME_FAQ)}
 </div></section>
 """
-    write("/", page("/", "Serrurier Genève – Dépannage 7j/7 | Clé en Main Genève",
-                    "Serrurier Genève 7j/7, 24h/24 : porte claquée, clé perdue, serrure bloquée. Devis gratuit par téléphone avant intervention. On répond en FR, EN, ES.",
+    write("/", page("/", f"Serrurier Genève – Dépannage {J7} | Clé en Main Genève",
+                    f"Serrurier Genève {DISPO} : porte claquée, clé perdue, serrure bloquée. Devis gratuit par téléphone avant intervention. On répond en FR, EN, ES.",
                     body, ld=[business_ld(), faq_ld(HOME_FAQ)]))
 
 
@@ -440,7 +530,7 @@ def build_service(s):
 <section class="phero"><div class="wrap">{crumbs(bc)}
 <h1>{e(s["h1"])}</h1><p class="lead">{e(s["lead"])}</p>
 <div class="ctas">{tel_link("btn b-yel")}</div>
-<ul class="checks"><li>{DEVIS}</li><li>7j/7 – 24h/24</li><li>{LANGS}</li></ul>
+<ul class="checks"><li>{DEVIS}</li><li>{DISPO}</li><li>{LANGS}</li></ul>
 </div></section>
 <section class="sec"><div class="wrap cols"><div class="prose">
 {secs}
@@ -471,10 +561,12 @@ def build_commune(c):
 <span class="kick">{canton}</span>
 <h1>{e(c["h1"])}</h1><p class="lead">{e(c["lead"])}</p>
 <div class="ctas">{tel_link("btn b-yel")}</div>
-<ul class="checks"><li>{DEVIS}</li><li>7j/7 – 24h/24</li><li>{LANGS}</li></ul>
+<ul class="checks"><li>{DEVIS}</li><li>{DISPO}</li><li>{LANGS}</li></ul>
 </div></section>
 <section class="sec"><div class="wrap cols"><div class="prose">
 {"".join(f"<p>{p}</p>" for p in c["intro"])}
+<h2>{e(c["label"])} : quartiers, bâtiments et repères</h2>
+{"".join(f"<p>{e(p)}</p>" for p in LOCAL[c["slug"]])}
 <h2>Ce qu'on rencontre souvent à {e(c["label"])}</h2>
 <div class="sit">{sits}</div>
 <div class="tip"><strong>Le conseil du serrurier</strong>{e(c["tip"])}</div>
@@ -496,14 +588,14 @@ def build_contact():
     bc = [("Accueil", "/"), ("Contact", path)]
     body = f"""
 <section class="phero"><div class="wrap">{crumbs(bc)}
-<h1>Contact – Serrurier Genève 7j/7</h1>
+<h1>Contact – Serrurier Genève {J7}</h1>
 <p class="lead">Le plus rapide, c'est le téléphone : un serrurier décroche, comprend votre situation et vous donne un devis gratuit avant d'intervenir.</p>
 <div class="ctas">{tel_link("btn b-yel")}<a class="btn b-ghost" href="sms:{PHONE_TEL}">Envoyer un SMS</a></div>
 </div></section>
 <section class="sec"><div class="wrap cols"><div class="prose">
 <div class="info">
 <div><strong>Téléphone</strong><a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a></div>
-<div><strong>Horaires</strong>7 jours sur 7, 24 heures sur 24, jours fériés compris</div>
+<div><strong>Horaires</strong>{DISPO_LONG[0].upper() + DISPO_LONG[1:]}</div>
 <div><strong>Langues</strong>{LANGS}</div>
 <div><strong>Adresse</strong>{e(ADDRESS)}</div>
 </div>
@@ -516,8 +608,8 @@ def build_contact():
 <div class="zg"><div><h3>Canton de Genève</h3>{chips(GE)}</div><div><h3>Canton de Vaud – La Côte</h3>{chips(VD)}</div></div>
 </div>{aside()}</div></section>
 """
-    write(path, page(path, "Contact – Serrurier Genève 7j/7 | Clé en Main Genève",
-                     "Contactez Clé en Main Genève, serrurier 7j/7 et 24h/24 au +41 79 942 95 44. Devis gratuit par téléphone avant intervention. On répond en FR, EN, ES.",
+    write(path, page(path, f"Contact – Serrurier Genève {J7} | Clé en Main Genève",
+                     f"Contactez Clé en Main Genève, serrurier ({DISPO}) au +41 79 942 95 44. Devis gratuit par téléphone avant intervention. On répond en FR, EN, ES.",
                      body, ld=[business_ld(), breadcrumb_ld(bc)]))
 
 
@@ -529,13 +621,13 @@ def build_legal():
 <h1>Mentions légales – Clé en Main Genève, serrurier Genève</h1></div></section>
 <section class="sec"><div class="wrap"><div class="prose">
 <h2>Éditeur du site</h2>
-<p><strong>{NAME}</strong><br>Adresse : {e(ADDRESS)}<br>{"Numéro IDE : " + e(IDE) + "<br>" if IDE else ""}Téléphone : <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a></p>
+<p><strong>{NAME}</strong><br>Entreprise individuelle – titulaire : {e(OWNER_NAME)}<br>Adresse : {e(ADDRESS)}<br>{"Numéro IDE : " + e(IDE) + "<br>" if IDE else ""}Téléphone : <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a></p>
 <h2>Hébergement</h2>
 <p>{e(HOSTING)}</p>
 <h2>Tarifs et devis</h2>
 <p>Aucun prix n'est publié sur ce site. Chaque intervention fait l'objet d'un devis gratuit communiqué par téléphone avant intervention. Aucune prestation n'est réalisée sans l'accord du client.</p>
 <h2>Propriété intellectuelle</h2>
-<p>Les textes, illustrations, logo et éléments graphiques de ce site sont la propriété de {NAME}. Toute reproduction sans autorisation écrite est interdite.</p>
+<p>Les textes, illustrations, logo et éléments graphiques de ce site sont la propriété de {e(OWNER_NAME)}, exploitant {NAME}. Toute reproduction sans autorisation écrite est interdite.</p>
 <h2>Protection des données</h2>
 <p>Ce site est une vitrine : il ne comporte ni formulaire, ni compte client, ni outil de mesure d'audience, ni cookie publicitaire. Aucune donnée personnelle n'est collectée par le site lui-même.</p>
 <p>Lorsque vous nous appelez ou nous envoyez un SMS, nous traitons votre numéro, votre adresse et les informations nécessaires à l'intervention, uniquement pour réaliser la prestation et établir la facture, conformément à la loi fédérale sur la protection des données (LPD). Vous pouvez demander l'accès à vos données ou leur suppression, sous réserve des obligations légales de conservation, en nous contactant au {PHONE_DISPLAY}.</p>
@@ -579,6 +671,26 @@ def build_meta_files():
     return paths
 
 
+def build_google_business():
+    """Génère GOOGLE-BUSINESS.md (horaires et adresse issus de la configuration)."""
+    base = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(base, "google-business.template.md"), encoding="utf-8") as f:
+        t = resolve(f.read())
+    if HOURS_24_7:
+        hours = ("**Ouvert 24 heures sur 24**, du lundi au dimanche.\n"
+                 "(Pour chaque jour : cocher « Ouvert », puis choisir « 24 heures sur 24 ».)")
+    else:
+        rows = "\n".join(f"| {d.capitalize()} | " + (f"{HOURS[d][0]} – {HOURS[d][1]}" if HOURS.get(d) else "Fermé") + " |" for d in DAYS)
+        hours = ("| Jour | Horaires |\n|---|---|\n" + rows +
+                 "\n\nN'indiquez pas « 24 heures sur 24 » : la fiche doit correspondre aux horaires réels et à ceux du site.")
+    t = t.replace("{HOURS_GBP}", hours).replace("{ADDRESS}", ADDRESS)
+    desc = t.split("## 4. Description")[1].split("```")[1].strip()
+    t = t.replace("{DESC_LEN}", str(len(desc)))
+    assert len(desc) <= 750, f"Description Google trop longue : {len(desc)} caractères"
+    with open(os.path.join(base, "..", "GOOGLE-BUSINESS.md"), "w", encoding="utf-8") as f:
+        f.write(t)
+
+
 def main():
     os.makedirs(ROOT, exist_ok=True)
     build_home()
@@ -590,6 +702,7 @@ def main():
     build_legal()
     build_404()
     paths = build_meta_files()
+    build_google_business()
     print(f"{len(paths)} pages générées dans {os.path.abspath(ROOT)} (SITE_URL={SITE_URL})")
 
 
