@@ -1,0 +1,23 @@
+# Netlify — si ce dossier est dans un dépôt plus large, réglez
+# « Base directory » sur cle-en-main-geneve dans Netlify.
+[build]
+  publish = "public"
+  command = "echo 'Site statique déjà généré dans public/'"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/favicon.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
