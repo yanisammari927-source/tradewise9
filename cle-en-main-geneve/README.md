@@ -16,6 +16,7 @@ cle-en-main-geneve/
 │   ├── content.py       ← tous les textes (services, communes, FAQ)
 │   ├── build.py         ← gabarits, CSS, SEO, configuration (adresse, IDE, domaine)
 │   └── images.mjs       ← génère les illustrations WebP et les icônes
+├── GOOGLE-BUSINESS.md   ← contenu de la fiche Google (GÉNÉRÉ par build.py)
 ├── netlify.toml
 ├── vercel.json
 └── README.md
@@ -28,6 +29,9 @@ Le bloc **CONFIGURATION** se trouve en haut de `src/build.py` :
 | Variable   | À remplacer par                                             |
 |------------|-------------------------------------------------------------|
 | `SITE_URL` | votre domaine final, ex. `https://www.cle-en-main-geneve.ch` |
+| `OWNER_NAME` | **à remplir** : prénom et nom du titulaire de l'entreprise individuelle (mentions légales) |
+| `HOURS_24_7` | `True` = « 7j/7, 24h/24 » partout (site, JSON-LD, fiche Google). À ne garder que si quelqu'un répond vraiment la nuit. `False` = horaires de `HOURS` |
+| `HOURS`    | horaires normaux jour par jour (utilisés si `HOURS_24_7 = False`) |
 | `STREET`   | rue et numéro (facultatif ; vide = seulement « 1224 Chêne-Bougeries ») |
 | `POSTAL_CODE` / `LOCALITY` | déjà remplis : `1224` / `Chêne-Bougeries`         |
 | `IDE`      | vide = non affiché ; à remplir si l'entreprise obtient un numéro IDE, ex. `CHE-123.456.789` |
