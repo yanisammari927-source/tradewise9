@@ -23,7 +23,7 @@ PHONE_DISPLAY = "+41 79 942 95 44"
 PHONE_TEL = "+41799429544"
 
 # --- Titulaire (obligatoire pour une entreprise individuelle) ---------------
-OWNER_NAME = "[NOM DU TITULAIRE]"   # prénom et nom du titulaire, ex. "Jean Dupont"
+OWNER_NAME = "Yanis Ammari"
 
 # --- Adresse ----------------------------------------------------------------
 STREET = ""                    # rue et numéro (facultatif), ex. "Chemin de l'Exemple 12"
