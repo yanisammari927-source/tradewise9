@@ -23,14 +23,15 @@ cle-en-main-geneve/
 
 ## 1. À compléter avant la mise en ligne
 
-Ouvrez `src/build.py` et remplissez le bloc **CONFIGURATION** en haut du fichier :
+Le bloc **CONFIGURATION** se trouve en haut de `src/build.py` :
 
 | Variable   | À remplacer par                                             |
 |------------|-------------------------------------------------------------|
 | `SITE_URL` | votre domaine final, ex. `https://www.cle-en-main-geneve.ch` |
-| `ADDRESS`  | l'adresse de l'entreprise (`[ADRESSE]`)                      |
-| `IDE`      | le numéro IDE, ex. `CHE-123.456.789` (`[IDE]`)               |
-| `HOSTING`  | l'hébergeur, ex. `Netlify, Inc., San Francisco, USA`         |
+| `STREET`   | rue et numéro (facultatif ; vide = seulement « 1224 Chêne-Bougeries ») |
+| `POSTAL_CODE` / `LOCALITY` | déjà remplis : `1224` / `Chêne-Bougeries`         |
+| `IDE`      | vide = non affiché ; à remplir si l'entreprise obtient un numéro IDE, ex. `CHE-123.456.789` |
+| `HOSTING`  | déjà rempli : Netlify                                        |
 
 Puis régénérez le site :
 

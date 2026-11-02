@@ -20,8 +20,11 @@ SITE_URL = os.environ.get("SITE_URL", "https://www.cle-en-main-geneve.ch").rstri
 NAME = "Clé en Main Genève"
 PHONE_DISPLAY = "+41 79 942 95 44"
 PHONE_TEL = "+41799429544"
-ADDRESS = "[ADRESSE]"          # ex. "Rue de l'Exemple 12, 1201 Genève"
-IDE = "[IDE]"                  # ex. "CHE-123.456.789"
+STREET = ""                    # rue et numéro (facultatif), ex. "Chemin de l'Exemple 12"
+POSTAL_CODE = "1224"
+LOCALITY = "Chêne-Bougeries"
+ADDRESS = ", ".join(x for x in [STREET, f"{POSTAL_CODE} {LOCALITY}"] if x)
+IDE = ""                       # numéro IDE si l'entreprise en obtient un, ex. "CHE-123.456.789" (vide = non affiché)
 HOSTING = "Netlify, Inc., San Francisco, Californie, États-Unis – www.netlify.com"        # ex. "Netlify, Inc., San Francisco (USA)"
 LASTMOD = date.today().isoformat()
 
@@ -268,7 +271,7 @@ def business_ld():
         "image": url("/img/og-image.jpg"),
         "logo": url("/img/logo-512.png"),
         "description": "Serrurier à Genève et sur La Côte : ouverture de porte, changement de serrure, sécurisation et blindage, mise en sécurité après effraction. 7j/7, 24h/24. Devis gratuit par téléphone avant intervention.",
-        "address": {"@type": "PostalAddress", "streetAddress": ADDRESS, "addressLocality": "Genève",
+        "address": {"@type": "PostalAddress", **({"streetAddress": STREET} if STREET else {}), "postalCode": POSTAL_CODE, "addressLocality": LOCALITY,
                     "addressRegion": "GE", "addressCountry": "CH"},
         "areaServed": area,
         "openingHoursSpecification": [{
@@ -324,7 +327,7 @@ def footer():
 <div><a class="brand" href="/">{LOGO}<span>{NAME}<small>Serrurier 7j/7</small></span></a>
 <p style="margin-top:1rem">Serrurerie à Genève et sur La Côte vaudoise : ouverture de porte, changement de serrure, sécurisation et mise en sécurité après effraction.</p>
 <p><a href="tel:{PHONE_TEL}"><strong>{PHONE_DISPLAY}</strong></a><br>7j/7 – 24h/24 · {LANGS}<br>{DEVIS}</p>
-<p>{e(ADDRESS)}<br>IDE : {e(IDE)}</p></div>
+<p>{e(ADDRESS)}{"<br>IDE : " + e(IDE) if IDE else ""}</p></div>
 <div><p class="fh">Services</p><ul class="flist one">{svc}<li><a href="/contact/">Contact</a></li></ul></div>
 <div><p class="fh">Communes desservies</p><ul class="flist">{com}</ul></div>
 </div>
@@ -526,7 +529,7 @@ def build_legal():
 <h1>Mentions légales – Clé en Main Genève, serrurier Genève</h1></div></section>
 <section class="sec"><div class="wrap"><div class="prose">
 <h2>Éditeur du site</h2>
-<p><strong>{NAME}</strong><br>Adresse : {e(ADDRESS)}<br>Numéro IDE : {e(IDE)}<br>Téléphone : <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a></p>
+<p><strong>{NAME}</strong><br>Adresse : {e(ADDRESS)}<br>{"Numéro IDE : " + e(IDE) + "<br>" if IDE else ""}Téléphone : <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a></p>
 <h2>Hébergement</h2>
 <p>{e(HOSTING)}</p>
 <h2>Tarifs et devis</h2>
