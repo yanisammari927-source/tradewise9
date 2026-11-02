@@ -22,7 +22,7 @@ PHONE_DISPLAY = "+41 79 942 95 44"
 PHONE_TEL = "+41799429544"
 ADDRESS = "[ADRESSE]"          # ex. "Rue de l'Exemple 12, 1201 Genève"
 IDE = "[IDE]"                  # ex. "CHE-123.456.789"
-HOSTING = "Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, États-Unis"        # ex. "Netlify, Inc., San Francisco (USA)"
+HOSTING = "Netlify, Inc., San Francisco, Californie, États-Unis – www.netlify.com"        # ex. "Netlify, Inc., San Francisco (USA)"
 LASTMOD = date.today().isoformat()
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "public")
