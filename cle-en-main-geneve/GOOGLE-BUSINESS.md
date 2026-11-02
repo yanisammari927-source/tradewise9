@@ -55,22 +55,13 @@ Gland
 
 ## 3. Horaires
 
-| Jour | Horaires |
-|---|---|
-| Lundi | 07:00 – 20:00 |
-| Mardi | 07:00 – 20:00 |
-| Mercredi | 07:00 – 20:00 |
-| Jeudi | 07:00 – 20:00 |
-| Vendredi | 07:00 – 20:00 |
-| Samedi | 08:00 – 18:00 |
-| Dimanche | Fermé |
+**Ouvert 24 heures sur 24**, du lundi au dimanche.
+(Pour chaque jour : cocher « Ouvert », puis choisir « 24 heures sur 24 ».)
 
-N'indiquez pas « 24 heures sur 24 » : la fiche doit correspondre aux horaires réels et à ceux du site.
-
-## 4. Description (699 caractères, limite 750)
+## 4. Description (654 caractères, limite 750)
 
 ```
-Clé en Main Genève est un serrurier qui intervient du lundi au vendredi de 7 h à 20 h, le samedi de 8 h à 18 h dans le canton de Genève et sur La Côte vaudoise (Nyon, Coppet, Gland). Porte claquée, clé perdue ou cassée, serrure bloquée, cylindre à changer, porte à sécuriser ou à remettre en état après une effraction : on vous écoute au téléphone, on vous explique la méthode prévue et on vous donne un devis gratuit avant toute intervention. Rien n'est fait sans votre accord. Nous cherchons d'abord la solution qui abîme le moins votre porte et vous proposons seulement ce qui est nécessaire. On vous répond en français, en anglais et en espagnol. Appartements, maisons, commerces et entreprises.
+Clé en Main Genève est un serrurier qui intervient 7j/7 et 24h/24 dans le canton de Genève et sur La Côte vaudoise (Nyon, Coppet, Gland). Porte claquée, clé perdue ou cassée, serrure bloquée, cylindre à changer, porte à sécuriser ou à remettre en état après une effraction : on vous écoute au téléphone, on vous explique la méthode prévue et on vous donne un devis gratuit avant toute intervention. Rien n'est fait sans votre accord. Nous cherchons d'abord la solution qui abîme le moins votre porte et vous proposons seulement ce qui est nécessaire. On vous répond en français, en anglais et en espagnol. Appartements, maisons, commerces et entreprises.
 ```
 
 ## 5. Services (onglet « Services »)
@@ -80,7 +71,7 @@ Clé en Main Genève est un serrurier qui intervient du lundi au vendredi de 7 h
 | Ouverture de porte | Porte claquée ou fermée à clé, clés à l'intérieur ou perdues. Nous cherchons d'abord la méthode qui abîme le moins. Devis gratuit par téléphone avant intervention. |
 | Changement de serrure | Remplacement du cylindre ou de la serrure complète après une perte de clé, un emménagement, une clé cassée ou un cylindre usé. Devis gratuit par téléphone. |
 | Sécurisation et blindage | Cylindre haute sécurité, protège-cylindre, serrure multipoints, renforts et blindage de porte. Diagnostic et devis gratuit, rien n'est posé sans votre accord. |
-| Après effraction | Mise en sécurité provisoire, remplacement du cylindre ou de la serrure forcés, facture détaillée pour l'assurance. Horaires : lun–ven 7h–20h, sam 8h–18h. |
+| Après effraction | Mise en sécurité provisoire, remplacement du cylindre ou de la serrure forcés, facture détaillée pour l'assurance. 7j/7, 24h/24. |
 | Changement de serrure de boîte aux lettres | Remplacement de la serrure de boîte aux lettres par un modèle compatible avec l'immeuble. |
 
 Ne remplissez **pas** le champ prix (pour rester cohérent avec le site).
@@ -88,6 +79,7 @@ Ne remplissez **pas** le champ prix (pour rester cohérent avec le site).
 ## 6. Attributs (si Google les propose)
 
 - Langues : français, anglais, espagnol
+- Service d'urgence / Ouvert 24h/24
 
 ## 7. Photos
 
@@ -99,7 +91,7 @@ Ne remplissez **pas** le champ prix (pour rester cohérent avec le site).
 
 **Post 1**
 ```
-Porte claquée, clé perdue, serrure bloquée ? Clé en Main Genève intervient du lundi au vendredi de 7 h à 20 h, le samedi de 8 h à 18 h à Genève et sur La Côte. Devis gratuit par téléphone avant intervention. On vous répond en FR, EN, ES.
+Porte claquée, clé perdue, serrure bloquée ? Clé en Main Genève intervient 7j/7, 24h/24 à Genève et sur La Côte. Devis gratuit par téléphone avant intervention. On vous répond en FR, EN, ES.
 ```
 Bouton : **Appeler**
 

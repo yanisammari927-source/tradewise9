@@ -37,7 +37,7 @@ HOSTING = "Netlify, Inc., San Francisco, Californie, États-Unis – www.netlify
 # True  = le site annonce « 7j/7, 24h/24 ». À n'activer QUE si quelqu'un répond
 #         réellement au téléphone la nuit, le week-end et les jours fériés.
 # False = le site annonce les horaires de HOURS ci-dessous.
-HOURS_24_7 = False
+HOURS_24_7 = True   # confirmé par le client : quelqu’un répond réellement la nuit
 # Horaires normaux (utilisés si HOURS_24_7 = False). None = fermé ce jour-là.
 HOURS = {
     "lundi":    ("07:00", "20:00"),
