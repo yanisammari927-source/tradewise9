@@ -17,7 +17,7 @@ import content as C
 # ==========================================================================
 # CONFIGURATION — à compléter avant la mise en ligne
 # ==========================================================================
-SITE_URL = os.environ.get("SITE_URL", "https://www.cle-en-main-geneve.ch").rstrip("/")
+SITE_URL = os.environ.get("SITE_URL", "https://cle-en-main-geneve.netlify.app")  # passer à https://www.cle-en-main-geneve.ch une fois le domaine acheté.rstrip("/")
 NAME = "Clé en Main Genève"
 PHONE_DISPLAY = "+41 79 942 95 44"
 PHONE_TEL = "+41799429544"
@@ -435,6 +435,7 @@ def page(path, title, desc, body, ld=(), robots="index,follow", og_type="website
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="google-site-verification" content="bqWw69MsIFhITfh1SUvFdfkSN0WhrzOkr7ZlSQr0wxk">
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
 {"" if robots.startswith("noindex") else f'<link rel="canonical" href="{canonical}">'}
