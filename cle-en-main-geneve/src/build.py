@@ -17,7 +17,7 @@ import content as C
 # ==========================================================================
 # CONFIGURATION — à compléter avant la mise en ligne
 # ==========================================================================
-SITE_URL = os.environ.get("SITE_URL", "https://cle-en-main-geneve.netlify.app")  # passer à https://www.cle-en-main-geneve.ch une fois le domaine acheté.rstrip("/")
+SITE_URL = os.environ.get("SITE_URL", "https://cle-en-main-geneve.netlify.app").rstrip("/")  # passer à https://www.cle-en-main-geneve.ch une fois le domaine acheté
 NAME = "Clé en Main Genève"
 PHONE_DISPLAY = "+41 79 942 95 44"
 PHONE_TEL = "+41799429544"
