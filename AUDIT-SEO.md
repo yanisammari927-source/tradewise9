@@ -504,7 +504,7 @@ La dernière mise à jour est la date de modification la plus récente déclaré
 ### Ce qu'ils ont et qu'AMS n'a pas
 
 1. **Des pages services.** 7 sites sur 9. AMS en avait 7 jusqu'au 31 octobre.
-2. **Une page principale plus complète.** Médiane de 1 117 mots contre 812, avec un bloc de services partout sauf chez serrurier-genève.ch.
+2. **Une page principale plus complète.** Médiane de 1 117 mots contre 812, avec un bloc de services chez 7 sites sur 9.
 3. **Des pages zones plus longues.** De 234 à 2 000 mots, médiane proche de 690. AMS est le plus bas du panel avec 183.
 4. **De l'ancienneté.** Six domaines sur neuf ont entre 9 et 26 ans.
 5. **Un numéro fixe genevois.** serrurier-secours.ch, serrurerie-silva.ch, serrurier-genève.ch et sos-serrurier-geneve.ch affichent un 022. AMS n'en a pas : celui de l'ancien site n'était pas le bon. Un 022 renvoyé sur le mobile serait un plus, sans urgence.
