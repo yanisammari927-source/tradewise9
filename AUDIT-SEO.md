@@ -4,6 +4,7 @@
 - **Date :** 11 novembre 2026
 - **Objectif :** entrer dans les dix premiers résultats organiques de Google sur « serrurier Genève » et « serrurier Geneve »
 - **Périmètre :** étape 1, audit seul. Aucun site n'a été modifié.
+- **Mise à jour :** 11 novembre 2026, après vos réponses (section 10). Le code du site a été retrouvé, quatre décisions sont prises.
 
 ## Verdict
 
@@ -13,9 +14,8 @@ Ce qui le freine vient de la refonte mise en ligne le 1er novembre 2026 et de l'
 
 1. Les 7 pages services ont été supprimées et redirigées vers l'accueil. Le site n'a plus de page pour « ouverture de porte Genève » ni pour « changement de serrure Genève ».
 2. Les 55 pages zones font 183 mots en médiane, dont 57 % sont identiques d'une page à l'autre. C'est un schéma proche de ce que Google appelle des pages satellites.
-3. L'ancien site est resté publié et indexable sur une adresse wixsite.com, avec 87 articles identiques, et son blog automatique continue d'y publier.
-4. Un second site, « Clé en Main Genève », vise le même mot-clé depuis la même commune.
-5. Le blog compte 87 articles et 106 744 mots, mais n'envoie presque aucun lien vers les pages à classer. Il pointe en revanche vers cinq domaines qui n'existent pas et vers un concurrent.
+3. L'ancien site est resté publié et indexable sur une adresse wixsite.com, avec 87 articles identiques et un numéro de téléphone qui n'est pas le vôtre. Son blog automatique continue d'y publier.
+4. Le blog compte 87 articles et 106 744 mots, mais n'envoie presque aucun lien vers les pages à classer. Il pointe en revanche vers cinq domaines qui n'existent pas et vers un concurrent.
 
 Sur les requêtes que j'ai pu tester, le site ressort sur la longue traîne (2e sur « serrurier Genève dépannage 24h/24 ouverture de porte ») mais pas dans les dix premiers sur « serrurier Genève » ni sur « serrurier geneve ». Ces tests viennent d'un moteur qui n'est pas Google.ch : voir les limites à la section 2.
 
@@ -29,14 +29,15 @@ Vous m'avez demandé de vérifier d'abord si une refonte codée se trouve dans c
 
 | Site | Marque et téléphone | État | Code source |
 |---|---|---|---|
-| www.sosserruriergeneve247.ch | AMS Multiservices 24/7, 077 243 69 43 | En ligne. C'est déjà une refonte codée : site Wix « sans éditeur » créé le 1er novembre 2026, pages de 34 Ko. | Pas dans ce dossier |
+| www.sosserruriergeneve247.ch | AMS Multiservices 24/7, 077 243 69 43 | En ligne. C'est déjà une refonte codée : site Wix « sans éditeur » créé le 1er novembre 2026, pages de 34 Ko. | Retrouvé chez Wix le 11 novembre, voir ci-dessous |
 | amsmultiservice247.wixsite.com/my-site | AMS, 022 557 75 87 et 077 243 69 43 | En ligne et indexable. C'est l'ancien site Wix, créé le 27 mars 2024, resté publié quand le domaine a été rattaché au nouveau site. | Éditeur Wix |
-| cle-en-main-geneve.netlify.app | Clé en Main Genève, 079 942 95 44 | En ligne et indexable, 22 pages. | `cle-en-main-geneve/` |
+| cle-en-main-geneve.netlify.app | Clé en Main Genève, 079 942 95 44 | En ligne et indexable, 22 pages. Site distinct d'AMS d'après vous : hors périmètre. | `cle-en-main-geneve/` |
 
-Deux conséquences :
+Où est le code du site AMS :
 
-- Le site AMS actuel n'est pas un site Wix classique à corriger dans l'éditeur. Pour l'étape 3, il me faudra soit son code source, soit travailler par la connexion Wix de cette session (le site figure dans votre compte), soit vous livrer les contenus à intégrer.
-- Ce dossier contient du contenu réutilisable : 15 pages communes avec des paragraphes locaux rédigés pour chacune, et 4 pages services. Son usage dépend de la décision n° 1 (section 10).
+- Il a été construit dans votre session « Maquette site serrurier Genève » (28 octobre au 1er novembre), qui n'avait pas de dépôt Git. Le générateur d'origine (`build.py`) n'existe que là-bas.
+- Wix conserve le projet publié : révision `1c2868c5`, du 1er novembre à 11 h 17 UTC. Je l'ai téléchargé le 11 novembre sans rien modifier : une enveloppe Astro, les 149 pages HTML générées, la table des routes et des redirections (`src/routes.json`), le plan de site.
+- L'étape 3 peut donc se faire directement sur ce code, puis par une nouvelle publication sur Wix. La version actuelle reste récupérable.
 
 ## 2. Méthode et limites
 
@@ -54,7 +55,7 @@ Ce qui n'a pas pu être mesuré :
 
 | Donnée | Pourquoi | Conséquence |
 |---|---|---|
-| Classement réel sur Google.ch | Le relevé automatisé des résultats Google n'est pas autorisé dans cette session. Les concurrents ont été identifiés avec l'outil de recherche intégré, dont l'index n'est pas celui de Google et qui interroge depuis les États-Unis. | Le panel de la section 7 est représentatif du marché, mais ce n'est pas un top 10 certifié. L'ordre des sites n'est pas un classement. |
+| Classement réel sur Google.ch | Nouvelle tentative le 11 novembre, à votre demande : Google répond par son contrôle anti-robot, que je ne contourne pas. Les concurrents ont été identifiés avec l'outil de recherche intégré, dont l'index n'est pas celui de Google et qui interroge depuis les États-Unis. | Le panel de la section 7 est représentatif du marché, mais ce n'est pas un top 10 certifié. L'ordre des sites n'est pas un classement. |
 | Liens entrants | Pas d'accès à un outil de liens ni à la Search Console. | Le facteur probablement le plus discriminant sur ce mot-clé n'est pas mesuré. |
 | Core Web Vitals de terrain | L'API PageSpeed Insights a refusé les requêtes (quota épuisé). | LCP et CLS sont des mesures de laboratoire. L'INP ne se mesure que sur de vrais visiteurs. |
 | Search Console | Pas d'accès. | Pages réellement indexées, requêtes, positions et anciennes URL connues de Google : inconnues. |
@@ -96,7 +97,7 @@ Le détail page par page est dans `audit-seo-donnees/crawl-ams.tsv`.
 | C1 | Pages services supprimées et redirigées vers l'accueil | 7 URL | moyen |
 | C2 | Pages zones minces et quasi identiques | 55 URL | élevé |
 | C3 | Ancien site toujours publié et indexable | tout l'ancien site | faible |
-| C4 | Deux sites pour la même activité et le même mot-clé | Clé en Main Genève | décision à prendre |
+| C4 | Deux sites sur le même mot-clé : tranché, Clé en Main Genève est hors périmètre | Clé en Main Genève | aucun |
 | F1 | Neuf pages visent « serrurier Genève » | 9 URL | faible |
 | F2 | Accueil moins complet que ceux des concurrents | `/` | moyen |
 | F3 | Blog produit en série, redondant, sans liens vers les pages à classer | 87 articles | élevé |
@@ -141,14 +142,16 @@ Le détail page par page est dans `audit-seo-donnees/crawl-ams.tsv`.
 
 **Correction.**
 
-1. Garder indexables 15 à 20 zones que vous pouvez documenter : les communes que vous avez citées et les quartiers de Genève-ville. Viser 500 à 900 mots réellement propres au lieu : temps de trajet réel depuis Chêne-Bougeries selon l'heure, type de bâti et de serrures, deux ou trois interventions réelles (date, quartier, problème, solution), repères, contraintes d'accès, questions locales.
-2. Passer les autres en `<meta name="robots" content="noindex, follow">` et les retirer du plan de site tant qu'elles ne sont pas enrichies. Elles restent accessibles aux visiteurs.
+Vous m'avez confirmé que vous desservez réellement toutes les zones affichées. Les 55 adresses sont donc conservées, et c'est leur contenu qui change.
+
+1. Réécrire toutes les pages zones en deux vagues : d'abord 20 zones prioritaires (les communes que vous avez citées et les quartiers de Genève-ville), puis les 34 autres. Viser 500 à 900 mots réellement propres au lieu : distance et temps de trajet depuis Chêne-Bougeries, type de bâti et de serrures, cas d'intervention fréquents, repères, contraintes d'accès, questions locales.
+2. Ne pas désindexer les pages en attente : elles existent depuis 2024 et la réécriture peut être faite en quelques semaines.
 3. Créer une vraie page `/serrurier` qui liste les zones. Aujourd'hui cette adresse redirige vers `/#zone`.
-4. Remplacer « 15 à 30 minutes » par une fourchette propre à chaque zone, que vous pouvez tenir.
+4. Remplacer « 15 à 30 minutes » par une fourchette propre à chaque zone, calculée sur la distance réelle, que vous validez.
 
 #### C3. L'ancien site est toujours publié et indexable
 
-**Constat.** `amsmultiservice247.wixsite.com/my-site` sert encore tout l'ancien site : accueil, 7 pages services, tarifs, 54 pages zones, 93 articles. Aucune balise noindex, canonical sur lui-même, exploration autorisée par robots.txt. Les 87 articles du nouveau site s'y trouvent à l'identique : 94 % et 96 % du texte en commun sur les deux articles comparés. Son blog automatique continue : cinq articles y ont été publiés depuis la refonte, les 2, 4, 6, 8 et 10 novembre, et n'existent que là. Il affiche deux numéros, 022 557 75 87 et 077 243 69 43.
+**Constat.** `amsmultiservice247.wixsite.com/my-site` sert encore tout l'ancien site : accueil, 7 pages services, tarifs, 54 pages zones, 93 articles. Aucune balise noindex, canonical sur lui-même, exploration autorisée par robots.txt. Les 87 articles du nouveau site s'y trouvent à l'identique : 94 % et 96 % du texte en commun sur les deux articles comparés. Son blog automatique continue : cinq articles y ont été publiés depuis la refonte, les 2, 4, 6, 8 et 10 novembre, et n'existent que là. Il affiche deux numéros, 022 557 75 87 et 077 243 69 43. Vous m'avez confirmé que le 022 n'est pas le vôtre : l'ancien site publie donc un numéro erroné.
 
 Je n'ai pas trouvé cette adresse dans l'index que je peux interroger. Son indexation par Google reste à vérifier avec la recherche `site:amsmultiservice247.wixsite.com`.
 
@@ -156,17 +159,17 @@ Je n'ai pas trouvé cette adresse dans l'index que je peux interroger. Son index
 
 **Correction.** Dans cet ordre :
 
-1. Copier le contenu des 7 pages services et des articles publiés depuis le 1er novembre.
+1. Copier le contenu des 7 pages services et des articles publiés depuis le 1er novembre. C'est fait : voir `audit-seo-donnees/ancien-site/`.
 2. Arrêter la publication automatique d'articles sur ce site.
-3. Dépublier le site « AMS Serrurerie 24/7 » dans le tableau de bord Wix. S'il doit rester en ligne, désactiver son indexation dans les paramètres SEO.
+3. Dépublier le site « AMS Serrurerie 24/7 » dans le tableau de bord Wix. Je peux le faire par la connexion Wix dès que vous me le confirmez.
 
-#### C4. Deux sites pour la même activité et le même mot-clé
+#### C4. Deux sites sur le même mot-clé : tranché
 
-**Constat.** `cle-en-main-geneve.netlify.app` est en ligne et indexable : canonical sur lui-même, balise de vérification Search Console, 22 pages. Son title est « Serrurier Genève – Dépannage 7j/7 | Clé en Main Genève ». Il indique 1224 Chêne-Bougeries et le 079 942 95 44. Le titulaire nommé dans ses mentions légales porte le nom qui figure dans la raison sociale d'AMS au registre du commerce : Ammari Ams Multiservices, CHE-417.859.085, siège à Chêne-Bougeries. Autre marque, autre numéro, même commune, même requête visée.
+**Constat.** `cle-en-main-geneve.netlify.app` est en ligne et indexable, avec le title « Serrurier Genève – Dépannage 7j/7 | Clé en Main Genève », la commune 1224 Chêne-Bougeries et le 079 942 95 44.
 
-**Pourquoi ça pèse sur le classement.** Si c'est la même entreprise, les liens, les citations et les recherches de marque se partagent entre deux domaines au lieu de se cumuler. Deux noms à une même adresse créent des incohérences dans les annuaires, et Google n'admet qu'une fiche par établissement. Les règles antispam citent aussi, parmi les pages satellites, « plusieurs sites Web ayant de légères différences » destinés à couvrir une même requête.
+**Décision du 11 novembre.** Vous m'avez indiqué que ce n'est pas du tout le même site et que seul www.sosserruriergeneve247.ch compte. Clé en Main Genève sort donc de cet audit et de la suite du travail.
 
-**Correction.** C'est la décision n° 1 de la section 10. Si l'activité est unique, je recommande de tout porter sur AMS : entreprise inscrite, domaine de deux ans et demi, fiche dans les annuaires. Clé en Main passe alors en noindex ou hors ligne, et ses textes sont repris sur le site AMS. Si ce sont deux entreprises distinctes, elles ne doivent partager ni adresse, ni numéro, ni liens, et Clé en Main sort de cet audit.
+**À garder en tête.** Les deux sites visent la même requête depuis la même commune. Pour qu'ils ne se gênent pas, ils ne doivent partager ni adresse postale, ni numéro, ni liens entre eux.
 
 ### Fort
 
@@ -246,7 +249,7 @@ Cible : 1 200 à 1 400 mots, au niveau du panel, sans chercher une densité de m
 
 **Pourquoi ça pèse sur le classement.** Un lien mort est un signal de négligence et une impasse pour le lecteur. Un domaine libre peut être acheté par n'importe qui, qui recevrait alors vos liens. Un lien suivi vers un concurrent, sur votre mot-clé, travaille pour lui.
 
-**Correction.** Supprimer ces 11 liens, ou les faire pointer vers vos propres pages : l'accueil, ou `/vitrier-geneve` une fois rétablie. Si sos-serrurier-geneve.ch vous appartient, dites-le-moi : cela change C4.
+**Correction.** Supprimer ces 11 liens, ou les faire pointer vers vos propres pages : l'accueil, ou `/vitrier-geneve` une fois rétablie. Vous m'avez confirmé que sos-serrurier-geneve.ch n'est pas à vous : c'est bien un lien vers un concurrent.
 
 #### F5. L'identité de l'entreprise varie d'une source à l'autre
 
@@ -256,7 +259,7 @@ Cible : 1 200 à 1 400 mots, au niveau du panel, sans chercher une densité de m
 
 **Qui le fait déjà.** travaux-depannage.ch, serruriersschweizer.ch et sos-serrures24.ch affichent leur numéro IDE.
 
-**Correction.** Arrêter un format unique (étape 4) et l'appliquer partout. Afficher dans les mentions légales et le pied de page la raison sociale inscrite, le titulaire et le numéro CHE-417.859.085. Décider du sort du 022 557 75 87 (décision n° 3). Remplacer l'adresse Gmail par une adresse au nom de domaine.
+**Correction.** Arrêter un format unique (étape 4) et l'appliquer partout. Afficher dans les mentions légales et le pied de page la raison sociale inscrite, le titulaire et le numéro CHE-417.859.085. Le seul numéro valable est le 077 243 69 43 (+41 77 243 69 43) : retirer le 022 557 75 87 partout où il subsiste, à commencer par l'ancien site, et vérifier la fiche Google. Remplacer l'adresse Gmail par une adresse au nom de domaine.
 
 #### F6. Les anciennes adresses en anglais renvoient une erreur 404
 
@@ -362,7 +365,7 @@ Cible : 1 200 à 1 400 mots, au niveau du panel, sans chercher une densité de m
 
 | N° | Constat | Page | Pourquoi | Correction |
 |---|---|---|---|---|
-| L1 | `/sitemap.xml` renvoie 404 ; le plan de site est à `/plan-du-site.xml`, déclaré dans robots.txt | racine | Les outils qui testent l'adresse standard ne trouvent rien | Soumettre `/plan-du-site.xml` dans la Search Console et rediriger `/sitemap.xml` vers lui |
+| L1 | `/sitemap.xml` renvoie 404 : cette adresse est réservée par Wix. Le plan de site est à `/plan-du-site.xml`, déclaré dans robots.txt | racine | Les outils qui testent l'adresse standard ne trouvent rien | Soumettre `/plan-du-site.xml` dans la Search Console. Rien d'autre à corriger |
 | L2 | Sur mobile, le numéro n'est pas écrit en haut de l'accueil : la barre fixe dit « Appeler », le bouton « Appeler maintenant » | `/` | Conversion : certains visiteurs veulent voir ou noter le numéro | Écrire « 077 243 69 43 » dans la barre fixe ou sur le bouton |
 | L3 | La bulle de la mascotte recouvre le bouton « Confirmer par téléphone » | `/`, `/serrurier-geneve-tarifs` | Conversion : un bouton d'appel masqué | Masquer la bulle quand elle passe sur un bouton d'appel |
 | L4 | Les 5 fichiers de police pèsent 111 Ko, soit 75 % du poids de la page | toutes | Marge de vitesse sur réseau lent | Passer à 3 fichiers |
@@ -504,7 +507,7 @@ La dernière mise à jour est la date de modification la plus récente déclaré
 2. **Une page principale plus complète.** Médiane de 1 117 mots contre 812, avec un bloc de services partout sauf chez serrurier-genève.ch.
 3. **Des pages zones plus longues.** De 234 à 2 000 mots, médiane proche de 690. AMS est le plus bas du panel avec 183.
 4. **De l'ancienneté.** Six domaines sur neuf ont entre 9 et 26 ans.
-5. **Un numéro fixe genevois.** serrurier-secours.ch, serrurerie-silva.ch, serrurier-genève.ch et sos-serrurier-geneve.ch affichent un 022. AMS a retiré le sien le 1er novembre.
+5. **Un numéro fixe genevois.** serrurier-secours.ch, serrurerie-silva.ch, serrurier-genève.ch et sos-serrurier-geneve.ch affichent un 022. AMS n'en a pas : celui de l'ancien site n'était pas le bon. Un 022 renvoyé sur le mobile serait un plus, sans urgence.
 6. **Des liens entrants**, probablement. Non mesuré.
 
 ### Ce qu'AMS a et qu'ils n'ont pas
@@ -529,13 +532,11 @@ Le détail des 22 sites est dans `audit-seo-donnees/concurrents.tsv`.
 | Site, données structurées et mentions légales | AMS Multiservices 24/7 | Chemin de la Montagne 96, 1224 Chêne-Bougeries | 077 243 69 43 |
 | Site, en-tête | AMS MULTISERVICES · Serrurerie · Vitrerie · Genève | non indiquée | 077 243 69 43 |
 | Articles du blog | AMS Serrurerie 24/7, AMS Vitrier | non indiquée | 077 243 69 43 |
-| Ancien site, toujours en ligne | AMS, AMS Multiservices 24/7 Serrurerie Vitrerie Genève | Chemin de la Montagne 96, 1224 Chêne-Bougeries | 022 557 75 87 et 077 243 69 43 |
+| Ancien site, toujours en ligne | AMS, AMS Multiservices 24/7 Serrurerie Vitrerie Genève | Chemin de la Montagne 96, 1224 Chêne-Bougeries | 077 243 69 43, et 022 557 75 87 qui n'est pas le vôtre |
 | search.ch et local.ch | Ams Multiservices 24/7 Serrurerie Vitrerie Genève | Chemin de la Montagne 96, Chêne-Bougeries | 077 243 69 43 |
 | Registre du commerce | Ammari Ams Multiservices, entreprise individuelle, CHE-417.859.085, publiée le 4 novembre 2024 | siège à Chêne-Bougeries | non indiqué |
 | Nom de domaine | sosserruriergeneve247 | sans objet | sans objet |
-| Clé en Main Genève | Clé en Main Genève | 1224 Chêne-Bougeries | 079 942 95 44 |
-
-L'adresse est cohérente partout. Le nom et le téléphone ne le sont pas.
+L'adresse est cohérente partout. Le nom ne l'est pas, et un numéro erroné subsiste sur l'ancien site.
 
 ### Signaux de confiance
 
@@ -551,7 +552,7 @@ L'adresse est cohérente partout. Le nom et le téléphone ne le sont pas.
 | Photos réelles | aucune identifiable | serrurerie-silva.ch (galerie) |
 | Preuves : assurance, marques, ancienneté | aucune | serrurerie-silva.ch (« + de 20 ans d'expérience », presse), serrurier-geneve-multisecu.ch (partenaires) |
 | Adresse e-mail au nom de domaine | non, Gmail | non relevé |
-| Numéro fixe 022 | retiré le 1er novembre | au moins 7 sites |
+| Numéro fixe 022 | aucun : celui de l'ancien site n'était pas le bon | au moins 7 sites |
 
 ## 9. Ce qui est bon et qu'il ne faut pas casser
 
@@ -564,20 +565,32 @@ L'adresse est cohérente partout. Le nom et le téléphone ne le sont pas.
 - Les boutons d'appel et WhatsApp sur chaque page, et la barre fixe sur mobile.
 - Les adresses des pages zones et des articles, conservées lors de la refonte.
 
-## 10. Décisions à prendre avant l'étape 2
+## 10. Décisions prises et points ouverts
 
-1. **AMS et Clé en Main Genève sont-ils la même entreprise ?** Si oui, laquelle des deux marques porte « serrurier Genève » ? Toute l'architecture en dépend (C4).
-2. **Où est le code du site mis en ligne le 1er novembre ?** Il n'est pas dans ce dossier. Pour l'étape 3, trois voies : vous me le fournissez ici, je travaille par la connexion Wix, ou je livre les contenus à intégrer.
-3. **Le 022 557 75 87 est-il encore actif ?** Et quel numéro figure sur la fiche Google ?
-4. **Puis-je considérer que l'ancien site doit être dépublié ?** Et qui, ou quel outil, publie un article tous les deux jours ?
-5. **sos-serrurier-geneve.ch est-il à vous ?**
-6. **Quelles zones desservez-vous réellement vite**, avec des interventions réelles à raconter ? C'est ce qui fixe la liste des 15 à 20 pages zones à garder.
-7. **Pouvez-vous me donner** un export de la Search Console (Performances par requête et par page, Pages, Liens) et une capture de la première page de Google.ch sur « serrurier Genève », en navigation privée depuis Genève ? Ce sont les deux données qui manquent à cet audit.
+Vos réponses du 11 novembre :
+
+| Question | Votre réponse | Conséquence |
+|---|---|---|
+| AMS et Clé en Main Genève sont-ils la même entreprise ? | Non, ce n'est pas du tout le même site. Seul www.sosserruriergeneve247.ch compte. | Clé en Main sort du périmètre (C4). |
+| Où est le code du site ? | Vous ne savez pas : à chercher dans les autres sessions. | Retrouvé et téléchargé depuis Wix (section 1). |
+| Le 022 557 75 87 est-il actif ? | Ce n'est pas le bon numéro. Le seul valable est le +41 77 243 69 43. | Le 022 est à retirer partout (C3, F5). |
+| L'ancien site doit-il être dépublié ? | N'utiliser que le site actuellement en ligne. | Je le dépublie dès que vous me le confirmez (C3). |
+| sos-serrurier-geneve.ch est-il à vous ? | Non. | C'est un concurrent : liens à supprimer (F4). |
+| Quelles zones desservez-vous vite ? | Toutes les villes et tous les lieux affichés sur le site. | Les 55 pages zones sont conservées et réécrites (C2). |
+| Export Search Console et capture Google ? | À regarder moi-même sur Google. | Google bloque les visites automatisées depuis ce serveur (section 2). |
+
+Ce qui reste ouvert :
+
+1. **Deux ou trois captures d'écran de Google** sur votre téléphone, après avoir tapé « serrurier Genève ». C'est le seul moyen d'avoir le vrai classement vu depuis Genève.
+2. **Votre accord pour dépublier l'ancien site** « AMS Serrurerie 24/7 », qui affiche un numéro erroné.
+3. **Qui, ou quel outil, publie un article tous les deux jours** sur l'ancien site ? Il faut l'arrêter.
+4. **Un accès ou un export de la Search Console**, si vous en avez une : requêtes, pages et liens.
 
 ## Annexes
 
 - `audit-seo-donnees/crawl-ams.tsv` : les 149 URL du site AMS avec statut, title, longueurs, H1, nombre de mots, liens entrants, canonical, données structurées, images.
 - `audit-seo-donnees/concurrents.tsv` : les 22 sites concurrents avec date d'enregistrement, nombre et type de pages, longueur des pages, données structurées, prix, scores Lighthouse.
+- `audit-seo-donnees/ancien-site/` : le texte des 7 pages services, de la page tarifs, de l'accueil, de la page Carouge et des 5 derniers articles de l'ancien site, copiés le 11 novembre avant sa dépublication.
 
 ## Sources
 
