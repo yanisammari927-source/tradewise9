@@ -3,6 +3,7 @@
 - **Site :** https://www.sosserruriergeneve247.ch
 - **Date :** 11 novembre 2026
 - **Étape 2 :** proposition d'architecture. Rien n'est encore modifié sur le site.
+- **Statut :** en attente. Le 11 novembre, vous avez demandé de ne pas modifier le site : ce plan n'est pas exécuté.
 - **Base :** l'audit `AUDIT-SEO.md` et vos réponses du 11 novembre.
 
 ## En bref

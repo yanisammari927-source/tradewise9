@@ -5,6 +5,7 @@
 - **Objectif :** entrer dans les dix premiers résultats organiques de Google sur « serrurier Genève » et « serrurier Geneve »
 - **Périmètre :** étape 1, audit seul. Aucun site n'a été modifié.
 - **Mise à jour :** 11 novembre 2026, après vos réponses (section 10). Le code du site a été retrouvé, quatre décisions sont prises.
+- **Consigne du 11 novembre :** ne pas modifier le site. Aucune des corrections ci-dessous n'est appliquée.
 
 ## Verdict
 
@@ -422,6 +423,21 @@ Autres vérifications :
 - **Image d'accueil :** WebP avec `srcset`, 22 Ko dans le test mobile.
 - **INP :** non mesurable en laboratoire. Avec 0 à 4 ms de blocage et 3 Ko de JavaScript, le risque est faible. À confirmer dans la Search Console, rapport Signaux Web essentiels.
 - **Rendu mobile :** aucun débordement horizontal, barre fixe « WhatsApp » et « Appeler » en bas d'écran.
+
+### Mobile contre ordinateur
+
+Vous constatez que le site sort souvent premier sur mobile et pas en première page sur ordinateur. Mesures du 11 novembre, avec le profil ordinateur de Lighthouse en plus du profil mobile :
+
+| | Mobile | Ordinateur |
+|---|---|---|
+| AMS, accueil | score 100, LCP 1,5 s | score 100, LCP 0,4 s |
+| Médiane des 9 concurrents du panel de tête | score 68, LCP 7,3 s | score 70, LCP 2,6 s |
+| Concurrents sous le seuil de 2,5 s de Google | 1 sur 9 | 4 sur 9 |
+
+- Le site envoie le même HTML aux deux appareils, et la version ordinateur s'affiche sans défaut. La cause n'est pas un problème du site sur ordinateur.
+- L'avantage de vitesse d'AMS est net sur mobile et faible sur ordinateur, où ce sont surtout le contenu et l'ancienneté qui départagent les sites.
+- Deux autres causes sont probables et ne se vérifient pas d'ici : la position précise du téléphone, qui favorise les entreprises proches du chercheur, et l'historique de navigation.
+- Deux captures d'écran, une sur mobile et une sur ordinateur, permettront de trancher : elles montreront si « premier » désigne le bloc avec la carte, une annonce ou un résultat normal.
 
 ## 6. Ciblage par page et cannibalisation
 
